@@ -49,7 +49,7 @@ HAVING SUM(amount) > 250;
 
 ---
 
-## 🔹 Key Points
+## Key Points
 
 * `WHERE` → filters **individual rows** before grouping
 * `HAVING` → filters **groups** after aggregation
@@ -69,5 +69,36 @@ amount → order amount
 We want to find customers whose total order amount exceeds 250, just like the SQL example.
 
 
+Repository with @Query
+---
+package com.example.demo.repository;
 
+import com.example.demo.entity.Order;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
+import java.util.List;
 
+@Repository
+public interface OrderRepository extends JpaRepository<Order, Long> {
+
+    // JPQL query using GROUP BY and HAVING
+    @Query("SELECT o.customerId, SUM(o.amount) " +
+           "FROM Order o " +
+           "GROUP BY o.customerId " +
+           "HAVING SUM(o.amount) > :minTotal")
+    List<Object[]> findCustomersWithTotalAmountGreaterThan(Double minTotal);
+}
+
+How it Works
+---
+The repository query uses JPQL:
+GROUP BY → groups orders by customerId
+SUM(o.amount) → calculates total per customer
+HAVING SUM(o.amount) > :minTotal → filters groups
+The service prints customers with total orders above 250
+Equivalent to the SQL query:
+SELECT customer_id, SUM(amount) AS total_amount
+FROM orders
+GROUP BY customer_id
+HAVING SUM(amount) > 250;
