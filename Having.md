@@ -71,6 +71,7 @@ We want to find customers whose total order amount exceeds 250, just like the SQ
 
 Repository with @Query
 ---
+```
 package com.example.demo.repository;
 
 import com.example.demo.entity.Order;
@@ -89,16 +90,19 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
            "HAVING SUM(o.amount) > :minTotal")
     List<Object[]> findCustomersWithTotalAmountGreaterThan(Double minTotal);
 }
-
+```
 How it Works
 ---
 The repository query uses JPQL:
-GROUP BY → groups orders by customerId
-SUM(o.amount) → calculates total per customer
-HAVING SUM(o.amount) > :minTotal → filters groups
-The service prints customers with total orders above 250
+* GROUP BY → groups orders by customerId
+* SUM(o.amount) → calculates total per customer
+* HAVING SUM(o.amount) > :minTotal → filters groups
+  
+The service prints customers with total orders above 250 <br>
 Equivalent to the SQL query:
+```sql
 SELECT customer_id, SUM(amount) AS total_amount
 FROM orders
 GROUP BY customer_id
 HAVING SUM(amount) > 250;
+```
