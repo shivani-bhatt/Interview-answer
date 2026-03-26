@@ -160,7 +160,7 @@ Microservice → API Gateway → Client
 
 ## Simple Architecture Diagram (Conceptual)
 
-
+```
 ```
       Client (Web/Mobile)
               │
