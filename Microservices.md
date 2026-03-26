@@ -37,7 +37,7 @@ Client → API Gateway → Microservice
 - Each service:
   - Has its own logic
   - Is independently deployable
-  - Communicates via APIs (REST, gRPC, messaging)
+  - Communicates via APIs
 
 Example Services:
 - User Service
@@ -71,16 +71,7 @@ Types:
 ---
 
 ### 6. **Inter-Service Communication**
-Two main approaches:
-
-#### a) Synchronous (Request/Response)
-- REST APIs / gRPC
-- Immediate response required
-
-#### b) Asynchronous (Event-driven)
-- Message brokers (Kafka, RabbitMQ)
-- Services communicate via events
-
+Communication between services
 Example:
 ```
 
@@ -90,35 +81,15 @@ Order Service → emits "Order Created" event → Payment Service listens
 
 ---
 
-### 7. **Message Broker (Event Bus)**
-- Handles asynchronous communication between services.
-- Ensures decoupling and reliability.
-
----
-
-### 8. **Configuration Server**
-- Centralized configuration management.
-- Stores environment-specific configs.
-
----
-
-### 9. **Security Layer**
+### 7. **Security Layer**
 - Handles:
-  - Authentication (JWT, OAuth2)
+  - Authentication
   - Authorization
 - Often integrated at API Gateway level.
 
 ---
 
-### 10. **Monitoring & Logging**
-- Tracks system health and performance.
-- Tools used:
-  - Logging: ELK Stack
-  - Monitoring: Prometheus, Grafana
-
----
-
-### 11. **Containerization & Orchestration**
+### 8. **Containerization & Orchestration**
 - Services are packaged into containers (Docker).
 - Managed using orchestration tools (Kubernetes).
 
