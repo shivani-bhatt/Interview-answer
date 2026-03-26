@@ -161,13 +161,10 @@ Microservice → API Gateway → Client
 ## Simple Architecture Diagram (Conceptual)
 
 ```
-```
-      Client (Web/Mobile)
-              │
-       API Gateway
-              │
-```
-
+       Client (Web/Mobile)
+               │
+          API Gateway
+               │
 ┌──────────────┼──────────────┐
 │              │              │
 User Service   Order Service   Payment Service
