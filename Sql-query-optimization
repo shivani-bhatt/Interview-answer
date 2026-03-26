@@ -1,0 +1,120 @@
+
+## What is SQL Query Optimization?
+
+SQL query optimization means **improving the performance of database queries** so they execute faster and use fewer resources.
+
+This is crucial because slow queries = slow APIs 
+
+---
+
+## Why is it Important?
+
+* Faster response time
+* Reduced database load
+* Better scalability
+* Lower infrastructure cost
+
+---
+
+## Common Techniques in Spring
+
+### Use Proper Indexing
+
+Add indexes on frequently searched columns
+
+```sql
+CREATE INDEX idx_user_email ON users(email);
+```
+
+✔ Speeds up `WHERE`, `JOIN`, `ORDER BY`
+
+---
+
+### 2️⃣ Avoid `SELECT *`
+
+Bad practice in general:
+
+```sql
+SELECT * FROM users;
+```
+
+Good:
+
+```sql
+SELECT id, name FROM users;
+```
+
+Fetch only required data → faster query
+
+---
+
+### Use Pagination
+
+In Spring Data JPA:
+
+```java
+Page<User> users = userRepository.findAll(PageRequest.of(0, 10));
+```
+
+Prevents loading huge datasets into memory
+
+---
+
+### Use Lazy vs Eager Loading Properly
+
+* Avoid using `EAGER` → loads everything (slow)
+* Prefer `LAZY` → loads only when needed
+
+```java
+@OneToMany(fetch = FetchType.LAZY)
+```
+
+---
+
+### Optimize JPQL / Native Queries
+
+```java
+@Query("SELECT u.name FROM User u WHERE u.email = :email")
+String findNameByEmail(String email);
+```
+
+✔ Fetch only required fields
+
+---
+
+### Use Batch Processing
+
+```properties
+spring.jpa.properties.hibernate.jdbc.batch_size=50
+```
+
+Improves bulk insert/update performance
+
+---
+
+### Avoid N+1 Query Problem
+
+Problem:
+
+* 1 query for parent
+* N queries for children
+
+Solution:
+
+```java
+@Query("SELECT u FROM User u JOIN FETCH u.orders")
+List<User> findAllUsersWithOrders();
+```
+
+---
+
+### Enable Query Logging (for debugging)
+
+```properties
+spring.jpa.show-sql=true
+spring.jpa.properties.hibernate.format_sql=true
+```
+
+Helps identify slow queries. Optimize then seperately.
+
+---
